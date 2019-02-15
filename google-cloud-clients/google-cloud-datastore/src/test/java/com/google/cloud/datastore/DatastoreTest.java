@@ -667,8 +667,11 @@ public class DatastoreTest {
   @Test
   public void testRunKeyQueryWithOffset() {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
-    int numberOfEntities = datastore.run(query).getSkippedResults();
+    QueryResults<?> results = datastore.run(query);
+    int numberOfEntities = results.getSkippedResults();
     assertEquals(2, numberOfEntities);
+    int moreResultsValue = results.getMoreResultsValue();
+    assertNotEquals(QueryResultBatch.MoreResultsType.NOT_FINISHED_VALUE, moreResultsValue);
   }
 
   private List<RunQueryResponse> buildResponsesForQueryPaginationWithLimit() {

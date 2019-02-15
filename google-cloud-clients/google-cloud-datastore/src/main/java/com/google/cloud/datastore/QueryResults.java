@@ -66,4 +66,22 @@ public interface QueryResults<V> extends Iterator<V> {
    * }</pre>
    */
   int getSkippedResults();
+
+  /**
+   * Returns the MoreResults state value.
+   *
+   * <p>A simple use case:
+   *
+   * <pre>{@code
+   * Query<Key> query = Query.newKeyQueryBuilder()
+   *     .setKind("Person")
+   *     .setFilter(PropertyFilter.eq("favoriteFood", "pizza"))
+   *     .build();
+   * boolean shouldCheckNextPageForResults =
+   *   QueryResultBatch.MoreResultsType.NO_MORE_RESULTS_VALUE != query.getMoreResultsValue();
+   * // `shouldCheckNextPageForResults` helps to determine whether or
+   * // not the next page should be fetched and checked for results.
+   * }</pre>
+   */
+  int getMoreResultsValue();
 }

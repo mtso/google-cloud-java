@@ -59,6 +59,7 @@ import com.google.cloud.datastore.Value;
 import com.google.cloud.datastore.ValueType;
 import com.google.cloud.datastore.testing.RemoteDatastoreHelper;
 import com.google.common.base.Preconditions;
+import com.google.datastore.v1.QueryResultBatch;
 import com.google.datastore.v1.TransactionOptions;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -857,5 +858,12 @@ public class ITDatastoreTest {
     Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
     int numberOfEntities = DATASTORE.run(query).getSkippedResults();
     assertEquals(2, numberOfEntities);
+  }
+
+  @Test
+  public void testMoreResultsValue() {
+    Query<Key> query = Query.newKeyQueryBuilder().setOffset(Integer.MAX_VALUE).build();
+    int moreResultsValue = DATASTORE.run(query).getMoreResultsValue();
+    assertNotEquals(QueryResultBatch.MoreResultsType.NOT_FINISHED_VALUE, moreResultsValue);
   }
 }
